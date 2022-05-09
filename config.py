@@ -11,15 +11,15 @@
 
 # Calibration Settings
 # --------------------
-calibrate = True         # Create a calibration image file with calibration hash markers 10 px per mark
+calibrate = False 	          	# Create a calibration image file with calibration hash markers 10 px per mark
 align_cam_on = False     # Default=False  True Saves alignment image to help with camera pointing
 align_delay_sec = 5      # Default=5 seconds delay between each alignment image
 
-cal_obj_px_L2R = 80      # L2R Moving Objects, Length of a calibration object in pixels
-cal_obj_mm_L2R = 4700.0  # L2R Moving Objects, Length of the calibration object in millimetres
+cal_obj_px_L2R = 289      # L2R Moving Objects, Length of a calibration object in pixels
+cal_obj_mm_L2R = 4527  # L2R Moving Objects, Length of the calibration object in millimetres
 
-cal_obj_px_R2L = 85      # R2L Moving Objects, Length of a calibration object in pixels
-cal_obj_mm_R2L = 4700.0  # R2L Moving Objects, Length of the calibration object in millimetres
+cal_obj_px_R2L = 289      # R2L Moving Objects, Length of a calibration object in pixels
+cal_obj_mm_R2L = 4527  # R2L Moving Objects, Length of the calibration object in millimetres
 
 # Note if tested speed is too low increase appropriate cal_obj_mm  value and redo speed test for desired direction.
 # IMPORTANT - If plugins Enabled Edit Settings in specified plugin file located in plugins folder.
@@ -45,22 +45,22 @@ show_crop_on = False   # Same as show_thresh_on but in color. True=Show, False=D
 # ------------------------
 verbose = True         # True= Display basic status information on console False= Off
 display_fps = False    # True= Show average frame count every 1000 loops False= Off
-log_data_to_CSV = False # True= Save log data as CSV comma separated values  False= Off
+log_data_to_CSV = True # True= Save log data as CSV comma separated values  False= Off
 loggingToFile = False  # True= Send logging to file False= No Logging to File
 logFilePath = 'speed-cam.log'  # Location of log file when loggingToFile=True
 
 # Motion Event Settings
 # ---------------------
 SPEED_MPH = False      # Set Speed Units   kph=False  mph=True
-track_counter = 6      # Default= 6 Number of Consecutive Motion Events to trigger speed photo. Adjust to suit.
+track_counter = 13      # Default= 6 Number of Consecutive Motion Events to trigger speed photo. Adjust to suit.
                        # Suggest single core cpu=4-7 quad core=8-15 but adjust to smooth erratic readings due to contour jumps
-MIN_AREA = 200         # Default= 200 Exclude all contours less than or equal to this sq-px Area
+MIN_AREA = 4000         # Default= 200 Exclude all contours less than or equal to this sq-px Area
 show_out_range = True  # Default= True Show Out of Range Events per x_diff settings below False= Off
-x_diff_max = 24        # Default= 20 Exclude if max px away >= last motion event x position
+x_diff_max = 60        # Default= 20 Exclude if max px away >= last motion event x position
 x_diff_min = 1         # Default= 1 Exclude if min px away <= last event x position
 x_buf_adjust = 10      # Default= 10 Divides motion Rect x for L&R Buffer Space to Ensure contours are in
-track_timeout = 0.5    # Default= 0.5 Optional seconds to wait after track End (Avoids dual tracking)
-event_timeout = 0.3    # Default= 0.3 seconds to wait for next motion event before starting new track
+track_timeout = 2    # Default= 0.5 Optional seconds to wait after track End (Avoids dual tracking)
+event_timeout = 0.5    # Default= 0.3 seconds to wait for next motion event before starting new track
 max_speed_over = 0     # Exclude track if Speed less than or equal to value specified 0=All
                        # Can be useful to exclude pedestrians and/or bikes, Etc or track only fast objects
 
@@ -70,22 +70,27 @@ max_speed_over = 0     # Exclude track if Speed less than or equal to value spec
 # If variable is commented, value will be set automatically based on image size.
 # To see motion tracking crop area on images, Set variable image_show_motion_area = True
 # Set align_cam_on = True to help with adjusting settings.
-x_left = 50           # Default=50 comment variable for auto calculate
-x_right = 250         # Default=250 comment variable for auto calculate
-y_upper = 90          # Default=90 comment variable for auto calculate
-y_lower = 150         # Default=150 comment variable for auto calculate
+# x_left = 200           # Default=50 comment variable for auto calculate
+# x_right = 620        # Default=250 comment variable for auto calculate
+# y_upper = 680          # Default=90 comment variable for auto calculate
+# y_lower = 230         # Default=150 comment variable for auto calculate
+
+x_left = 350           # Default=50 comment variable for auto calculate
+y_upper = 680         # Default=90 comment variable for auto calculate
+x_right = 1300         # Default=250 comment variable for auto calculate
+y_lower = 850         # Default=150 comment variable for auto calculate
 
 # Camera Settings
 # ---------------
 CAM_LOCATION = 'None'  # Specify an address, physical location Etc for camera
-WEBCAM = False         # Default= False False=PiCamera True= USB Webcam or RTSP,IP Camera
+WEBCAM = True         # Default= False False=PiCamera True= USB Webcam or RTSP,IP Camera
 
 # Web Camera Settings
-WEBCAM_SRC = 0         # Default= 0   USB camera device connection number
+WEBCAM_SRC = 1         # Default= 0   USB camera device connection number
                        # or RTSP cam string eg "rtsp://192.168.1.101/RtspTranslator.12/camera"
                        # see WIKI for details
-WEBCAM_WIDTH = 320     # Default= 320 USB Webcam Image width ignored for RTSP cam
-WEBCAM_HEIGHT = 240    # Default= 240 USB Webcam Image height ignored for RTSP cam
+WEBCAM_WIDTH = 1920     # Default= 320 USB Webcam Image width ignored for RTSP cam
+WEBCAM_HEIGHT = 1080    # Default= 240 USB Webcam Image height ignored for RTSP cam
 WEBCAM_HFLIP = False   # Default= False USB Webcam flip image horizontally
 WEBCAM_VFLIP = False   # Default= False USB Webcam flip image vertically
                        # IMPORTANT Webcam Streaming Performance Hit if Stream Flipped.
@@ -101,20 +106,22 @@ CAMERA_HFLIP = True    # Flip the camera image horizontally if required
 
 # Camera Image Settings
 # ---------------------
-image_path = "media/images"   # folder name to store images
+image_path = "C:/Users/vrj/Dropbox/SpeedCam"   # folder name to store images
 image_prefix = "speed-"       # image name prefix
 image_format = ".jpg"         # Default = ".jpg"  image Formats .jpg .jpeg .png .gif .bmp
-image_jpeg_quality = 98       # Set the quality of the jpeg. Default = 95 https://docs.opencv.org/3.4/d8/d6a/group__imgcodecs__flags.html#ga292d81be8d76901bff7988d18d2b42ac
+image_jpeg_quality = 75       # Set the quality of the jpeg. Default = 95 https://docs.opencv.org/3.4/d8/d6a/group__imgcodecs__flags.html#ga292d81be8d76901bff7988d18d2b42ac
 image_jpeg_optimize = True    # Optimize the image. Default = False https://docs.opencv.org/3.4/d8/d6a/group__imgcodecs__flags.html#ga292d81be8d76901bff7988d18d2b42ac
 image_show_motion_area = True # True= Display motion detection rectangle area on saved images
 image_filename_speed = True   # True= Include speed value in filename
 image_text_on = True          # True= Show Text on speed images   False= No Text on images
 image_text_bottom = True      # True= Show image text at bottom otherwise at top
-image_font_size = 12          # Default= 12 Font text height in px for text on images
-image_font_scale = 0.5        # Default= 0.5 Font scale factor that is multiplied by the font-specific base size.
+image_font_size = 160          # Default= 12 Font text height in px for text on images
+image_font_scale = 1.25        # Default= 0.5 Font scale factor that is multiplied by the font-specific base size.
 image_font_thickness = 2      # Default= 2  Font text thickness in px for text on images
-image_font_color = (255, 255, 255)  # Default= (255, 255, 255) White
-image_bigger = 3.0            # Default= 3.0 min=0.1 Resize saved speed image by specified multiplier value
+image_font_color_slow = (255, 70, 0)  # Default= (255, 255, 255) White BGR format 
+image_font_color_fast = (55, 20, 255)  # Default= (255, 255, 255) White BGR
+
+image_bigger = 1.0            # Default= 3.0 min=0.1 Resize saved speed image by specified multiplier value
 image_max_files = 0           # 0=off or specify MaxFiles to maintain then oldest are deleted  Default=0 (off)
 
 image_sign_on = False

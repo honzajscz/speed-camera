@@ -1574,24 +1574,34 @@ def speed_camera():
                                         image_sign_font_color,
                                         image_sign_font_thickness,
                                     )
+                                    
+                                if ave_speed > 30:
+                                    image_font_color = image_font_color_fast
+                                else:
+                                    image_font_color = image_font_color_slow
                                 # Write text on image before saving
                                 # if required.
                                 if image_text_on:
-                                    image_text = "SPEED %.1f %s - %s" % (
+                                    image_text = "Rychlost %.1f %s" % (
                                         ave_speed,
-                                        speed_units,
-                                        filename,
+                                        "km/h",
                                     )
-                                    text_x = int(
-                                        (image_width / 2)
-                                        - (len(image_text) * image_font_size / 3)
+                                    image_text_2 = "%s" % (
+                                        datetime.datetime.now().strftime("%d.%m.%Y %X"),
                                     )
-                                    if text_x < 2:
-                                        text_x = 2
                                     cv2.putText(
                                         big_image,
                                         image_text,
-                                        (text_x, text_y),
+                                        (615, 930),
+                                        font,
+                                        image_font_scale,
+                                        image_font_color,
+                                        image_font_thickness,
+                                    )
+                                    cv2.putText(
+                                        big_image,
+                                        image_text_2,
+                                        (615, 990),
                                         font,
                                         image_font_scale,
                                         image_font_color,
